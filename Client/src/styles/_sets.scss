@@ -1,0 +1,56 @@
+.set-cards-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0.5rem 1rem;
+
+  .set-card-wrapper {
+    border: solid thin $border_color;
+    border-radius: 0.5rem;
+    margin: 0.5rem 1rem;
+    padding: 0.5rem;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: auto 100%;
+    height: 20rem;
+    text-decoration: none;
+    position: relative;
+    width: 12rem;
+
+    h2 {
+      background-color: rgba(255, 255, 255, 0.8);
+      border: solid thin #000;
+      border-radius: 0.5rem;
+      color: #000;
+      font-size: 1.5rem;
+    }
+
+    .subset-list {
+      background-color: rgba(255, 255, 255, 0.8);
+      border: solid thin #000;
+      border-radius: 0.5rem;
+      color: #000;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      list-style: none;
+      padding: 0;
+      width: 10rem;
+    }
+
+    .tcg-date {
+      background-color: rgba(255, 255, 255, 0.8);
+      border: solid thin #000;
+      border-radius: 0.5rem;
+      color: #000;
+      position: absolute;
+      bottom: 5%;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 0.25rem 0.5rem;
+    }
+  }
+}
