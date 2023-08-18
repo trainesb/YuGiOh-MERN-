@@ -1,4 +1,5 @@
 require('dotenv').config({ path: './config.env' });
+const fs = require('fs')
 
 const express = require('express');
 const cors = require('cors');
@@ -17,6 +18,7 @@ require('./routes/auth.routes')(app);
 require('./routes/user.routes')(app);
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 // Global error handling
 app.use(function (err, res, _req) {
@@ -26,7 +28,7 @@ app.use(function (err, res, _req) {
 const db = require("./models");
 const Role = db.role;
 db.mongoose
-  .connect(`mongodb://localhost:27017/yugioh`, {
+  .connect(`mongodb://localhost:27017/yu-gi-oh`, {
     useNewUrlParser: true,
     useUnifiedTopology: true
   })
@@ -76,6 +78,14 @@ dbo.connectToServer(function (err) {
     console.error(err);
     process.exit();
   }
+
+  fs.readdirSync("./collections")
+      .forEach(file => {
+        console.log(file);
+        if(fs.lstatSync("./collections/" + file).isDirectory()) {
+          app.use("/api", require("./collections/" + file + "/route"))
+        }
+      })
 
   // start the Express server
   app.listen(PORT, () => {

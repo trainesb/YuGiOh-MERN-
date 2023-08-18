@@ -72,7 +72,11 @@ const App = () => {
       state.accessToken = sessionStorage.getItem('accessToken')
       getUserFromAccessToken(state.accessToken).then(data => {
         console.log(data)
-        dispatch({type: "LOGIN_UPDATE", payload: data})
+        if(!data.hasOwnProperty('username')) {
+          dispatch({type: "LOGOUT"})
+        } else {
+          dispatch({type: "LOGIN_UPDATE", payload: data})
+        }
       })
     }
   }, [])

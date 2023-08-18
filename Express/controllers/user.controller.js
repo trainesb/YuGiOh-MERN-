@@ -4,17 +4,32 @@ const db = require("../models");
 const User = db.user;
 const Role = db.role;
 
-exports.allAccess = (req, res) => {
-  res.status(200).send("Public Content.");
-};
-exports.userBoard = (req, res) => {
-  res.status(200).send("User Content.");
-};
-exports.adminBoard = (req, res) => {
-  res.status(200).send("Admin Content.");
-};
-exports.moderatorBoard = (req, res) => {
-  res.status(200).send("Moderator Content.");
+exports.updateUserCards = (req, res) => {
+  let token = req.headers["x-access-token"];
+  if (!token) {
+    return res.status(403).send({ message: "No token provided!" });
+  }
+  jwt.verify(token, config.secret, (err, decoded) => {
+    if (err) {
+      return res.status(401).send({ message: "Unauthorized!" });
+    }
+    req.userId = decoded.id;
+  });
+
+  // console.log(req.body)
+
+  User.findById(req.userId).exec((err, user) => {
+    if (err) {
+      res.status(500).send({ message: err });
+      return;
+    }
+
+    user.cards = req.body[0]
+    user.save(function(err) {
+      if(err) { console.log(err) }
+      return;
+    })
+  })
 };
 
 exports.tokenUser = (req, res) => {
